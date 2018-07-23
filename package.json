@@ -9,8 +9,16 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
+    "material-design-icons-iconfont": "^3.0.3",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
+    "vue2mapbox-gl": "^0.3.2",
+    "vuetify": "^1.0.19",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
