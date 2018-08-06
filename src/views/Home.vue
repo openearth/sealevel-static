@@ -8,6 +8,7 @@
         clipped
         app
         >
+        <v-layer-control :layers="layers" :map="map"></v-layer-control>
         <v-list dense>
           <v-list-tile v-for="item in items" :key="item.text" @click="$router.push({'name': item.route})">
             <v-list-tile-action>
@@ -41,7 +42,7 @@
               <v-mapbox
                 access-token="pk.eyJ1IjoiYWRyaWFhbnNlIiwiYSI6ImNqYXd4YnZ5dzc4dzMycW53b3lhMXZ6eDkifQ.bbG-PKhVspm-Mkh9zhO8hQ"
                 map-style="mapbox://styles/mapbox/satellite-streets-v10"
-                id="map">
+                id="map" ref="map">
                 <v-map-layers></v-map-layers>
               </v-mapbox>
             </v-flex>

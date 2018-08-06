@@ -55,7 +55,7 @@ const mapLayers = [
       },
       'source-layer': 'EEZ_boundary-8t9rn6',
       'layout': {
-        'visibility': 'invisible'
+        'visibility': 'none'
       },
       'paint': {
         'line-color': 'rgba(256, 0, 0, 0.5)'
