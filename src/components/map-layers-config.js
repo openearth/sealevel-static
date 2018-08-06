@@ -54,9 +54,6 @@ const mapLayers = [
         'url': 'mapbox://adriaanse.di3mnmez'
       },
       'source-layer': 'EEZ_boundary-8t9rn6',
-      'layout': {
-        'visibility': 'none'
-      },
       'paint': {
         'line-color': 'rgba(256, 0, 0, 0.5)'
       }
