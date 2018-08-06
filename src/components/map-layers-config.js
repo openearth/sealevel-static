@@ -1,4 +1,3 @@
-
 const mapLayers = [
   {
     layertype: 'mapbox-layer',
@@ -45,7 +44,7 @@ const mapLayers = [
     name: 'Exclusive economic zone',
     icon: '',
     opacity: 100,
-    active: true,
+    active: false,
     data: [{
       'id': 'eez',
       'type': 'line',
@@ -58,8 +57,7 @@ const mapLayers = [
         'line-color': 'rgba(256, 0, 0, 0.5)'
       }
     }]
-  },
-
+  }
 ]
 
 export {
