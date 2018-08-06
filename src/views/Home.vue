@@ -39,9 +39,11 @@
           <v-layout>
             <v-flex>
               <v-mapbox
-                access-token="pk.eyJ1Ijoic2lnZ3lmIiwiYSI6Il8xOGdYdlEifQ.3-JZpqwUa3hydjAJFXIlMA"
+                access-token="pk.eyJ1IjoiYWRyaWFhbnNlIiwiYSI6ImNqYXd4YnZ5dzc4dzMycW53b3lhMXZ6eDkifQ.bbG-PKhVspm-Mkh9zhO8hQ"
                 map-style="mapbox://styles/mapbox/satellite-streets-v10"
-                id="map"></v-mapbox>
+                id="map">
+                <v-map-layers></v-map-layers>
+              </v-mapbox>
             </v-flex>
           </v-layout>
         </v-container>

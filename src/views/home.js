@@ -4,8 +4,8 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-
 import Vue2Mapbox from 'vue2mapbox-gl'
+import MapLayers from '../components/VMapLayers'
 
 Vue.use(Vuetify)
 Vue.use(Vue2Mapbox)
@@ -25,5 +25,6 @@ export default {
     }
   },
   components: {
+    'v-map-layers': MapLayers
   }
 }
