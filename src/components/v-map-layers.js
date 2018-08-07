@@ -17,7 +17,7 @@ export default {
         bus.$emit('add-layer', layer)
         if (layer.layertype === 'mapbox-layer') {
           _.each(layer.data, (maplayer) => {
-            maplayer.active = true;
+            maplayer.active = true
             map.addLayer(maplayer)
           })
         }
