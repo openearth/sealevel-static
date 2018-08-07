@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <v-app>
-      <v-navigation-drawer v-model="drawer" fixed clipped app :width="325">
+      <v-navigation-drawer v-model="drawer" fixed clipped app>
         <v-expansion-panel class="v-selection-panel">
           <v-expansion-panel-content value=true>
             <div class="header" slot="header">Map Layers:</div>

@@ -39,10 +39,13 @@
 <script src="./v-layer-control.js"></script>
 
 <style scoped>
-/* .layer-control {
-  max-height: 50vh;
-  overflow-y: auto;
-} */
+
+.v-expansion-panel__container >>> .v-expansion-panel__header {
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+}
 
 .draggable {
   width: 100%;
