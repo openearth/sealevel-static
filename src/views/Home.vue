@@ -1,9 +1,13 @@
 <template>
   <div class="home">
-    <v-app
-      >
+    <v-app>
       <v-navigation-drawer v-model="drawer" fixed clipped app :width="325">
-        <v-layer-control :layers="layers" :map="map"></v-layer-control>
+        <v-expansion-panel class="v-selection-panel">
+          <v-expansion-panel-content value=true>
+            <div class="header" slot="header">Map Layers:</div>
+            <v-layer-control :layers="layers" :map="map"></v-layer-control>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
         <v-list dense>
           <v-list-tile v-for="item in items" :key="item.text" @click="$router.push({'name': item.route})">
             <v-list-tile-action>
@@ -17,12 +21,7 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar
-        dense
-        fixed
-        clipped-left
-        app
-        >
+      <v-toolbar dense fixed clipped-left app>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-icon class="mx-3">fab fa-youtube</v-icon>
         <v-toolbar-title class="mr-5 align-center">

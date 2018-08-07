@@ -1,10 +1,10 @@
 <template>
   <v-expansion-panel class="panel">
-    <draggable class="draggable" v-model="computedList" @start="drag=true" @end="drag=false" :options="{handle:'.header__icon'}">
+    <draggable class="draggable" v-model="computedList" @start="drag=true" @end="drag=false" :options="{handle:'.v-expansion-panel__header__icon'}">
       <v-expansion-panel-content v-for="layer in layers" :key="layer.id" focusable expand-icon="more_vert">
         <div class="header" slot="header">
-          <v-list dense class="ma-1 pa-0">
-            <v-list-tile class="ma-0 pa-0">
+          <v-list dense>
+            <v-list-tile>
               <v-list-tile-action>
                 <v-switch v-model="layer.active"></v-switch>
               </v-list-tile-action>
@@ -16,15 +16,15 @@
           </v-list>
         </div>
         <div class="ma-0 pl-5 pr-5">
-          <v-slider v-if="layer.opacity" hide-details class="pa-0 ma-0" title="transparantie" :min="1" :max="100" v-model="layer.opacity"></v-slider>
+          <v-slider v-if="layer.opacity" hide-details title="transparantie" :min="1" :max="100" v-model="layer.opacity"></v-slider>
           <v-select v-if="layer.visualisations" :items="layer.visualisations" item-text="name" item-value="name" v-model="falseColor" item></v-select>
           <div v-if="layer.legend">
             <template v-if="layer.legend.range">
-            <div v-if="layer.legend.colors" class="color-ramp" :style="colorRamp(layer.legend)" ></div>
+            <div class="color-ramp" v-if="layer.legend.colors" :style="colorRamp(layer.legend)" ></div>
             <div class='range-ramp'>{{layer.legend.range}}</div>
             </template>
             <template v-if="layer.legend.colors && layer.legend.labels">
-            <div v-for="i in layer.legend.colors.length" :key="i" class="color-label"  >
+            <div class="color-label" v-for="i in layer.legend.colors.length" :key="i">
               <span class="colored-span" :style="'background-color: ' + layer.legend.colors[i-1]"></span>
               <label class="ma-1" >{{layer.legend.labels[i-1]}}</label>
             </div>
