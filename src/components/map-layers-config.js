@@ -61,7 +61,7 @@ const mapLayers = [
         'line-color': 'rgba(256, 0, 0, 0.5)'
       }
     }]
-  },
+  }
 
 ]
 
