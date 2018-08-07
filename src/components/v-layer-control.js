@@ -1,8 +1,8 @@
-import _ from 'lodash';
+import _ from 'lodash'
 import draggable from 'vuedraggable'
 import {
   bus
-} from '@/event-bus.js';
+} from '@/event-bus.js'
 export default {
   name: 'layer-control',
   props: {
@@ -12,116 +12,116 @@ export default {
     },
     map: {
       type: Object
-    },
+    }
   },
-  data: function() {
+  data: function () {
     return {
       expand: 0,
       firstImage: null,
       falseColor: 'Natural colors'
-    };
+    }
   },
   computed: {
     computedList: {
-      get() {
+      get () {
         return this.layers
       },
-      set(layers) {
+      set (layers) {
         bus.$emit('select-layers', layers)
       }
     }
   },
   watch: {
-    // Watch "layers". This is a switch, which can toggle a layer on or off
+    // Watch 'layers'. This is a switch, which can toggle a layer on or off
     // When toggled, this watcher will activate the toggleLayers function.
     layers: {
-      handler: function(layers) {
-        this.toggleLayers();
+      handler: function (layers) {
+        this.toggleLayers()
         this.sortLayers()
         bus.$emit('select-layers', layers)
       },
       deep: true
     },
     firstImage: {
-      handler: function(firstImage) {
-        this.toggleLayers();
+      handler: function (firstImage) {
+        this.toggleLayers()
       },
       deep: true
     },
     // apply false color scheme to satellite layer(s)
     falseColor: {
-      handler: function(falseColor) {
-        this.setFalseColor(falseColor);
+      handler: function (falseColor) {
+        this.setFalseColor(falseColor)
       }
     }
   },
-  mounted() {
+  mounted () {
     bus.$on('firstImage-changed', (firstImage) => {
-      this.firstImage = firstImage;
+      this.firstImage = firstImage
     })
   },
   methods: {
-    sortLayers() {
+    sortLayers () {
       for (var i = this.layers.length - 2; i >= 0; --i) {
         for (var thislayer = 0; thislayer < this.layers[i].data.length; ++thislayer) {
           this.map.moveLayer(this.layers[i].data[thislayer].id)
         }
       }
     },
-    toggleLayers() {
+    toggleLayers () {
       if (_.isNil(this.map)) {
-        return;
+        return
       }
       // Function to toggle the visibility and opacity of the layers.
       var vis = ['none', 'visible']
 
       _.each(this.layers, (layer) => {
         _.each(layer.data, (sublayer) => {
-          if (layer.active && (layer.layertype == "mapbox-layer" ||
-              (layer.layertype == "gee-layer" && sublayer.date === this.firstImage))) {
-                this.map.setLayoutProperty(sublayer.id, 'visibility', vis[1]);
-                this.setOpacity(layer, sublayer);
+          if (layer.active && (layer.layertype === 'mapbox-layer' ||
+             (layer.layertype === 'gee-layer' && sublayer.date === this.firstImage))) {
+            this.map.setLayoutProperty(sublayer.id, 'visibility', vis[1])
+            this.setOpacity(layer, sublayer)
           } else {
-            this.map.setLayoutProperty(sublayer.id, 'visibility', vis[0]);
+            this.map.setLayoutProperty(sublayer.id, 'visibility', vis[0])
           }
         })
-      });
+      })
     },
-    setOpacity(layer, sublayer) {
+    setOpacity (layer, sublayer) {
       if (layer.opacity) {
         try {
-          var opacity = Math.max(layer.opacity * 0.01, 0.01);
-          var property;
-          if (layer.layertype == "gee-layer") {
-            property = "raster-opacity";
-          } else if (sublayer.type == "fill") {
-            property = "fill-opacity";
-          } else if (sublayer.type == "line") {
-            property = "line-opacity";
+          var opacity = Math.max(layer.opacity * 0.01, 0.01)
+          var property
+          if (layer.layertype === 'gee-layer') {
+            property = 'raster-opacity'
+          } else if (sublayer.type === 'fill') {
+            property = 'fill-opacity'
+          } else if (sublayer.type === 'line') {
+            property = 'line-opacity'
           }
           if (property) {
-            this.map.setPaintProperty(sublayer.id, property, opacity);
+            this.map.setPaintProperty(sublayer.id, property, opacity)
           }
-        } catch(err) {
-          console.log("error setting opacity: " + opacity + "(" + err.message + ")");
+        } catch (err) {
+          console.log('error setting opacity: ' + opacity + '(' + err.message + ')')
         }
       }
     },
-    setFalseColor(name) {
+    setFalseColor (name) {
       _.each(this.layers, (layer) => {
         if (layer.visualisations) {
-          layer.vis = layer.visualisations.find(v => v.name == this.falseColor).vis
+          layer.vis = layer.visualisations.find(v => v.name === this.falseColor).vis
         }
       })
       bus.$emit('change-false-color', name)
     },
-    colorRamp(legend) {
+    colorRamp (legend) {
       if (legend && legend.colors) {
-        return "background: linear-gradient(to right, " + legend.colors.join() + ");"
+        return 'background: linear-gradient(to right, ' + legend.colors.join() + ');'
       }
     }
   },
   components: {
     draggable
   }
-};
+}

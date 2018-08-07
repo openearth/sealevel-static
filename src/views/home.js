@@ -1,6 +1,6 @@
 import {
   bus
-} from '@/event-bus.js';
+} from '@/event-bus.js'
 
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -21,7 +21,7 @@ export default {
     return {
       map: null,
       layers: [],
-      drawer: false,
+      drawer: true,
       items: [
         { icon: 'trending_up', text: 'Trends', public: true, route: 'trends' },
         { icon: 'subscriptions', text: 'Animations', public: true, route: 'animations' },
@@ -31,12 +31,11 @@ export default {
       ]
     }
   },
-  mounted() {
+  mounted () {
     this.map = this.$refs.map.map
     bus.$on('add-layer', (layer) => {
       this.layers.push(layer)
     })
-
   },
   components: {
     'v-map-layers': MapLayers,
