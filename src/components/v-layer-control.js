@@ -17,28 +17,30 @@ export default {
   data: function () {
     return {
       expand: 0,
+      drag: false,
       firstImage: null,
       falseColor: 'Natural colors'
     }
   },
   computed: {
+    // computed property which links the 'vuedraggable' control to the list of layers
     computedList: {
       get () {
         return this.layers
       },
       set (layers) {
-        bus.$emit('select-layers', layers)
+        this.layers = layers
+        bus.$emit('select-layers', this.layers)
       }
     }
   },
   watch: {
-    // Watch 'layers'. This is a switch, which can toggle a layer on or off
-    // When toggled, this watcher will activate the toggleLayers function.
+    // watch for changes of the 'layers' control property
     layers: {
       handler: function (layers) {
         this.toggleLayers()
         this.sortLayers()
-        bus.$emit('select-layers', layers)
+        bus.$emit('select-layers', this.layers)
       },
       deep: true
     },
