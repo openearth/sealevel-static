@@ -22,6 +22,7 @@ export default {
       map: null,
       layers: [],
       drawer: true,
+      expand: 0,
       items: [
         { icon: 'trending_up', text: 'Trends', public: true, route: 'trends' },
         { icon: 'subscriptions', text: 'Animations', public: true, route: 'animations' },

@@ -2,8 +2,8 @@
   <div class="home">
     <v-app>
       <v-navigation-drawer v-model="drawer" fixed clipped app>
-        <v-expansion-panel class="v-selection-panel">
-          <v-expansion-panel-content value=true>
+        <v-expansion-panel class="v-selection-panel" v-model="expand">
+          <v-expansion-panel-content>
             <div class="header" slot="header">Map Layers:</div>
             <v-layer-control :layers="layers" :map="map"></v-layer-control>
           </v-expansion-panel-content>
