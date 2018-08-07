@@ -1,28 +1,27 @@
 const mapLayers = [
   {
     layertype: 'mapbox-layer',
-    name: '12 miles zone',
-    icon: '',
+    name: 'Economic zone',
+    icon: '/images/eez.png',
     opacity: 100,
-    active: true,
+    active: false,
     data: [{
-      'id': '12miles',
-      'type': 'fill',
+      'id': 'eez',
+      'type': 'line',
       'source': {
         'type': 'vector',
-        'url': 'mapbox://adriaanse.9f199gkd'
+        'url': 'mapbox://adriaanse.di3mnmez'
       },
-      'source-layer': '12_miles_zone-d5cbg5',
+      'source-layer': 'EEZ_boundary-8t9rn6',
       'paint': {
-        'fill-color': 'rgba(64, 64, 64, 0.5)',
-        'fill-outline-color': 'rgba(255, 255, 255, 0.5)'
+        'line-color': 'rgba(256, 0, 0, 0.75)'
       }
     }]
   },
   {
     layertype: 'mapbox-layer',
     name: '24 miles zone',
-    icon: '',
+    icon: '/images/24miles.png',
     opacity: 100,
     active: true,
     data: [{
@@ -41,20 +40,21 @@ const mapLayers = [
   },
   {
     layertype: 'mapbox-layer',
-    name: 'Exclusive economic zone',
-    icon: '',
+    name: '12 miles zone',
+    icon: '/images/12miles.png',
     opacity: 100,
-    active: false,
+    active: true,
     data: [{
-      'id': 'eez',
-      'type': 'line',
+      'id': '12miles',
+      'type': 'fill',
       'source': {
         'type': 'vector',
-        'url': 'mapbox://adriaanse.di3mnmez'
+        'url': 'mapbox://adriaanse.9f199gkd'
       },
-      'source-layer': 'EEZ_boundary-8t9rn6',
+      'source-layer': '12_miles_zone-d5cbg5',
       'paint': {
-        'line-color': 'rgba(256, 0, 0, 0.5)'
+        'fill-color': 'rgba(64, 64, 64, 0.5)',
+        'fill-outline-color': 'rgba(255, 255, 255, 0.5)'
       }
     }]
   }

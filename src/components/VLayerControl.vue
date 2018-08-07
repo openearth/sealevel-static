@@ -10,7 +10,7 @@
                 <v-switch v-model="layer.active" title="Click to change layer visibility"></v-switch>
               </v-list-tile-action>
               <v-list-tile-title>{{layer.name}}</v-list-tile-title>
-              <v-list-tile-avatar v-if="layer.icon">
+              <v-list-tile-avatar class="" v-if="layer.icon">
                 <img :src="layer.icon" />
               </v-list-tile-avatar>
             </v-list-tile>
@@ -47,6 +47,11 @@
   padding-right: 8px;
   padding-bottom: 0px;
 }
+
+.v-list__tile__avatar {
+  min-width: 40px;
+}
+
 .v-icon {
   cursor: grab;
 }
