@@ -2,12 +2,7 @@
   <div class="home">
     <v-app
       >
-      <v-navigation-drawer
-        v-model="drawer"
-        fixed
-        clipped
-        app
-        >
+      <v-navigation-drawer v-model="drawer" fixed clipped app :width="325">
         <v-layer-control :layers="layers" :map="map"></v-layer-control>
         <v-list dense>
           <v-list-tile v-for="item in items" :key="item.text" @click="$router.push({'name': item.route})">

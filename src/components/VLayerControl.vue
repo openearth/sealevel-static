@@ -4,7 +4,7 @@
       <v-expansion-panel-content v-for="layer in layers" :key="layer.id" focusable expand-icon="more_vert">
         <div class="header" slot="header">
           <v-list dense class="ma-1 pa-0">
-            <v-list-tile class="ma-0 pa-0" v-on:click.stop=";">
+            <v-list-tile class="ma-0 pa-0">
               <v-list-tile-action>
                 <v-switch v-model="layer.active"></v-switch>
               </v-list-tile-action>
