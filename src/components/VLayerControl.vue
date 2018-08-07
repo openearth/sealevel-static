@@ -1,12 +1,13 @@
 <template>
   <v-expansion-panel class="panel">
-    <draggable class="draggable" v-model="computedList" @start="drag=true" @end="drag=false" :options="{handle:'.v-expansion-panel__header__icon'}">
-      <v-expansion-panel-content v-for="layer in layers" :key="layer.id" focusable expand-icon="more_vert">
+    <draggable class="draggable" v-model="computedList" @start="drag=true" @end="drag=false" :options="{handle:'.v-icon'}">
+      <v-expansion-panel-content v-for="layer in layers" :key="layer.id" focusable>
         <div class="header" slot="header">
           <v-list dense>
-            <v-list-tile>
+            <v-list-tile title="Click to open / close layer properties">
+              <v-icon class="mr-2" title="Drag to change map layer drawing order">dehaze</v-icon>
               <v-list-tile-action>
-                <v-switch v-model="layer.active"></v-switch>
+                <v-switch v-model="layer.active" title="Click to change layer visibility"></v-switch>
               </v-list-tile-action>
               <v-list-tile-title>{{layer.name}}</v-list-tile-title>
               <v-list-tile-avatar v-if="layer.icon">
@@ -46,7 +47,9 @@
   padding-right: 8px;
   padding-bottom: 0px;
 }
-
+.v-icon {
+  cursor: grab;
+}
 .draggable {
   width: 100%;
 }
