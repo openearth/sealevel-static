@@ -4,6 +4,9 @@ import {
 import {
   mapLayers
 } from './map-layers-config.js'
+
+import _ from 'lodash'
+
 export default {
   name: 'v-map-layers',
   data () {
