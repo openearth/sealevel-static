@@ -1,5 +1,22 @@
 const mapLayers = [
   {
+    layertype: 'geojson',
+    name: 'Gauging stations',
+    info: '<i>source: <a href="http://www.psmsl.org" target="_blank">PSMSL</a></i>',
+    data: [{
+      'id': 'gauging',
+      'type': 'symbol',
+      'source': {
+        'type': 'geojson',
+        'data': 'https://storage.googleapis.com/slr/psmsl/locations.geojson'
+      },
+      'layout': {
+        'icon-image': 'triangle-11',
+        'icon-size': 1.5
+      }
+    }]
+  },
+  {
     layertype: 'mapbox',
     name: 'Economic zone',
     icon: '/images/eez.png',
