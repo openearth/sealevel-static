@@ -5,7 +5,7 @@
         <div class="header" slot="header">
           <v-list dense>
             <v-list-tile title="Click to open / close layer properties">
-              <v-icon class="mr-2" @click.stop=";" title="Drag to change map layer drawing order">dehaze</v-icon>
+              <v-icon class="draghandle mr-2" @click.stop=";" title="Drag to change map layer drawing order">dehaze</v-icon>
               <v-list-tile-action>
                 <v-switch v-model="layer.active" title="Click to change layer visibility"></v-switch>
               </v-list-tile-action>
@@ -53,7 +53,7 @@
   min-width: 40px;
 }
 
-.v-icon {
+.draghandle {
   cursor: grab !important;
 }
 .draggable {
