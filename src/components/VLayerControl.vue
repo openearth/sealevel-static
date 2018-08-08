@@ -19,10 +19,9 @@
         <div class="ma-0 pl-5 pr-5">
           <v-slider v-if="layer.opacity" hide-details title="Change layer opacity" :min="1" :max="100" v-model="layer.opacity"></v-slider>
           <v-select v-if="layer.visualisations" :items="layer.visualisations" item-text="name" item-value="name" v-model="falseColor" item></v-select>
-          <div v-if="layer.info" class="pb-2">{{layer.info}}</div>
           <div v-if="layer.legend">
             <template v-if="layer.legend.range">
-              <div class="color-ramp" v-if="layer.legend.colors" :style="colorRamp(layer.legend)" ></div>
+              <div class="color-ramp mt-1" v-if="layer.legend.colors" :style="colorRamp(layer.legend)" ></div>
               <div class='range-ramp'>{{layer.legend.range}}</div>
             </template>
             <template v-if="layer.legend.colors && layer.legend.labels">
@@ -32,6 +31,7 @@
               </div>
             </template>
           </div>
+          <div v-if="layer.info" class="pb-2 pt-2" v-html="layer.info"></div>
         </div>
       </v-expansion-panel-content>
     </draggable>

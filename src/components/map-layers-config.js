@@ -5,7 +5,7 @@ const mapLayers = [
     icon: '/images/eez.png',
     opacity: 100,
     active: false,
-    info: 'source: marineregions.org',
+    info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
     legend: {
       colors: ['#ff0000'],
       labels: ['EEZ boundary']
@@ -29,7 +29,7 @@ const mapLayers = [
     icon: '/images/24miles.png',
     opacity: 100,
     active: true,
-    info: 'source: marineregions.org',
+    info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
     legend: {
       colors: ['#404040', '#c8c8c8'],
       labels: ['zone', 'boundary']
@@ -54,7 +54,7 @@ const mapLayers = [
     icon: '/images/12miles.png',
     opacity: 100,
     active: true,
-    info: 'source: marineregions.org',
+    info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
     legend: {
       colors: ['#404040', '#c8c8c8'],
       range: '0 1'
