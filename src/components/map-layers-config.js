@@ -1,6 +1,6 @@
 const mapLayers = [
   {
-    layertype: 'mapbox-layer',
+    layertype: 'mapbox',
     name: 'Economic zone',
     icon: '/images/eez.png',
     opacity: 100,
@@ -24,7 +24,7 @@ const mapLayers = [
     }]
   },
   {
-    layertype: 'mapbox-layer',
+    layertype: 'mapbox',
     name: '24 miles zone',
     icon: '/images/24miles.png',
     opacity: 100,
@@ -49,7 +49,7 @@ const mapLayers = [
     }]
   },
   {
-    layertype: 'mapbox-layer',
+    layertype: 'mapbox',
     name: '12 miles zone',
     icon: '/images/12miles.png',
     opacity: 100,

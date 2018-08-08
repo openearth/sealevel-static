@@ -18,9 +18,9 @@ export default {
     deferredMountedTo (map) {
       _.each(mapLayers, (layer) => {
         bus.$emit('add-layer', layer)
-        if (layer.layertype === 'mapbox-layer') {
+        if (layer.layertype && layer.layertype.includes('mapbox')) {
           _.each(layer.data, (maplayer) => {
-            maplayer.active = true
+            maplayer.active = layer.active
             map.addLayer(maplayer)
           })
         }

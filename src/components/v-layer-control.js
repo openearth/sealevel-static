@@ -79,8 +79,7 @@ export default {
 
       _.each(this.layers, (layer) => {
         _.each(layer.data, (sublayer) => {
-          if (layer.active && (layer.layertype === 'mapbox-layer' ||
-             (layer.layertype === 'gee-layer' && sublayer.date === this.firstImage))) {
+          if (layer.active) {
             this.map.setLayoutProperty(sublayer.id, 'visibility', vis[1])
             this.setOpacity(layer, sublayer)
           } else {
