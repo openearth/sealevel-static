@@ -5,7 +5,7 @@
         <div class="header" slot="header">
           <v-list dense>
             <v-list-tile title="Click to open / close layer properties">
-              <v-icon class="mr-2" title="Drag to change map layer drawing order">dehaze</v-icon>
+              <v-icon class="mr-2" @click.stop=";" title="Drag to change map layer drawing order">dehaze</v-icon>
               <v-list-tile-action>
                 <v-switch v-model="layer.active" title="Click to change layer visibility"></v-switch>
               </v-list-tile-action>
@@ -17,18 +17,18 @@
           </v-list>
         </div>
         <div class="ma-0 pl-5 pr-5">
-          <v-slider v-if="layer.opacity" hide-details title="transparantie" :min="1" :max="100" v-model="layer.opacity"></v-slider>
+          <v-slider v-if="layer.opacity" hide-details title="Change layer opacity" :min="1" :max="100" v-model="layer.opacity"></v-slider>
           <v-select v-if="layer.visualisations" :items="layer.visualisations" item-text="name" item-value="name" v-model="falseColor" item></v-select>
           <div v-if="layer.legend">
             <template v-if="layer.legend.range">
-            <div class="color-ramp" v-if="layer.legend.colors" :style="colorRamp(layer.legend)" ></div>
-            <div class='range-ramp'>{{layer.legend.range}}</div>
+              <div class="color-ramp" v-if="layer.legend.colors" :style="colorRamp(layer.legend)" ></div>
+              <div class='range-ramp'>{{layer.legend.range}}</div>
             </template>
             <template v-if="layer.legend.colors && layer.legend.labels">
-            <div class="color-label" v-for="i in layer.legend.colors.length" :key="i">
-              <span class="colored-span" :style="'background-color: ' + layer.legend.colors[i-1]"></span>
-              <label class="ma-1" >{{layer.legend.labels[i-1]}}</label>
-            </div>
+              <div class="color-label" v-for="i in layer.legend.colors.length" :key="i">
+                <span class="colored-span" :style="'background-color: ' + layer.legend.colors[i-1]"></span>
+                <label class="ma-1" >{{layer.legend.labels[i-1]}}</label>
+              </div>
             </template>
           </div>
         </div>
@@ -53,7 +53,7 @@
 }
 
 .v-icon {
-  cursor: grab;
+  cursor: grab !important;
 }
 .draggable {
   width: 100%;
