@@ -6,7 +6,7 @@
           <v-list dense>
             <v-list-tile title="Click to open / close layer properties">
               <v-icon class="draghandle mr-2" @click.stop=";" title="Drag to change map layer drawing order">dehaze</v-icon>
-              <v-list-tile-action>
+              <v-list-tile-action @click.stop=";">
                 <v-switch v-model="layer.active" title="Click to change layer visibility"></v-switch>
               </v-list-tile-action>
               <v-list-tile-title>{{layer.name}}</v-list-tile-title>
