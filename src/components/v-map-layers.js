@@ -19,7 +19,6 @@ export default {
       _.each(mapLayers, (layer) => {
         bus.$emit('add-layer', layer)
         if (layer.layertype && (layer.layertype.includes('mapbox') || layer.layertype.includes('geojson'))) {
-          layer.active = (layer.active === false) ? layer.active : true
           _.each(layer.data, (maplayer) => {
             maplayer.active = layer.active
             map.addLayer(maplayer)
