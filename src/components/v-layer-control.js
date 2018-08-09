@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import draggable from 'vuedraggable'
 import {
   bus
@@ -21,14 +20,13 @@ export default {
     }
   },
   computed: {
-    // computed property which links the 'vuedraggable' control to the list of layers
-    computedList: {
+    // the ui handles (drag/drop) layers in reverse order
+    reverseLayers: {
       get () {
-        return this.layers
+        return this.layers.slice().reverse()
       },
-      set (layers) {
-        this.layers = layers
-        bus.$emit('select-layers', this.layers)
+      set (data) {
+        this.layers = data.slice().reverse()
       }
     }
   },
@@ -46,44 +44,46 @@ export default {
   mounted () { },
   methods: {
     sortLayers () {
-      // sort the layers in mapbox to match this.layers
+      // sort the layers in mapbox to match this.layers order
       if (this.map && this.layers) {
-        for (var i = this.layers.length - 2; i >= 0; --i) {
-          for (var thislayer = 0; thislayer < this.layers[i].data.length; ++thislayer) {
-            this.map.moveLayer(this.layers[i].data[thislayer].id)
-          }
-        }
+        var self = this
+        this.layers.forEach((layer) => {
+          layer.data.forEach((layerData) => {
+            self.map.moveLayer(layerData.id)
+          })
+        })
       }
     },
     toggleLayers () {
       // toggle the visibility and opacity of the layers in mapbox.
       if (this.map && this.layers) {
-        _.each(this.layers, (layer) => {
-          _.each(layer.data, (sublayer) => {
+        var self = this
+        this.layers.forEach((layer) => {
+          layer.data.forEach((layerData) => {
             if (layer.active) {
-              this.map.setLayoutProperty(sublayer.id, 'visibility', 'visible')
-              this.setOpacity(layer, sublayer)
+              self.map.setLayoutProperty(layerData.id, 'visibility', 'visible')
+              self.setOpacity(layer, layerData)
             } else {
-              this.map.setLayoutProperty(sublayer.id, 'visibility', 'none')
+              self.map.setLayoutProperty(layerData.id, 'visibility', 'none')
             }
           })
         })
       }
     },
-    setOpacity (layer, sublayer) {
+    setOpacity (layer, layerData) {
       if (layer.opacity) {
         try {
           var opacity = Math.max(layer.opacity * 0.01, 0.01)
           var property
-          if (layer.layertype === 'gee-layer') {
+          if (layer.layerType === 'gee') {
             property = 'raster-opacity'
-          } else if (sublayer.type === 'fill') {
+          } else if (layerData.type === 'fill') {
             property = 'fill-opacity'
-          } else if (sublayer.type === 'line') {
+          } else if (layerData.type === 'line') {
             property = 'line-opacity'
           }
           if (property) {
-            this.map.setPaintProperty(sublayer.id, property, opacity)
+            this.map.setPaintProperty(layerData.id, property, opacity)
           }
         } catch (err) {
           console.log('error setting opacity: ' + opacity + '(' + err.message + ')')

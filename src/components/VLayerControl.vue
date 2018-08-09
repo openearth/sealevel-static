@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panel class="panel">
-    <draggable class="draggable" v-model="computedList" @start="drag=true" @end="drag=false" :options="{handle:'.v-icon'}">
-      <v-expansion-panel-content v-for="layer in layers" :key="layer.id" focusable>
+    <draggable class="draggable" v-model="reverseLayers" @start="drag=true" @end="drag=false" :options="{handle:'.v-icon'}">
+      <v-expansion-panel-content v-for="layer in reverseLayers" :key="layer.id" focusable>
         <div class="header" slot="header">
           <v-list dense>
             <v-list-tile title="Click to open / close layer properties">

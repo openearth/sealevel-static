@@ -1,23 +1,56 @@
 const mapLayers = [
   {
-    layertype: 'geojson',
-    name: 'Gauging stations',
-    info: '<i>source: <a href="http://www.psmsl.org" target="_blank">PSMSL</a></i>',
+    layerType: 'mapbox',
+    name: '12 miles zone',
+    icon: '/images/12miles.png',
+    opacity: 100,
+    active: true,
+    info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
+    legend: {
+      colors: ['#404040', '#c8c8c8'],
+      range: '0 1'
+    },
     data: [{
-      'id': 'gauging',
-      'type': 'symbol',
+      'id': '12miles',
+      'type': 'fill',
       'source': {
-        'type': 'geojson',
-        'data': 'https://storage.googleapis.com/slr/psmsl/locations.geojson'
+        'type': 'vector',
+        'url': 'mapbox://adriaanse.9f199gkd'
       },
-      'layout': {
-        'icon-image': 'triangle-11',
-        'icon-size': 1.5
+      'source-layer': '12_miles_zone-d5cbg5',
+      'paint': {
+        'fill-color': 'rgba(64, 64, 64, 0.5)',
+        'fill-outline-color': 'rgba(200, 200, 200, 1.0)'
       }
     }]
   },
   {
-    layertype: 'mapbox',
+    layerType: 'mapbox',
+    name: '24 miles zone',
+    icon: '/images/24miles.png',
+    opacity: 100,
+    active: true,
+    info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
+    legend: {
+      colors: ['#404040', '#c8c8c8'],
+      labels: ['zone', 'boundary']
+    },
+    data: [{
+      'id': '24miles',
+      'type': 'fill',
+      'source': {
+        'type': 'vector',
+        'url': 'mapbox://adriaanse.7z3o0vxj'
+      },
+      'source-layer': '24_miles_zone-9d814s',
+      'paint': {
+        'fill-color': 'rgba(64, 64, 64, 0.5)',
+        'fill-outline-color': 'rgba(200, 200, 200, 1.0)'
+      }
+    }]
+  },
+  {
+    layerType: 'mapbox',
     name: 'Economic zone',
     icon: '/images/eez.png',
     opacity: 100,
@@ -41,52 +74,19 @@ const mapLayers = [
     }]
   },
   {
-    layertype: 'mapbox',
-    name: '24 miles zone',
-    icon: '/images/24miles.png',
-    opacity: 100,
-    active: true,
-    info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
-    legend: {
-      colors: ['#404040', '#c8c8c8'],
-      labels: ['zone', 'boundary']
-    },
+    layerType: 'geojson',
+    name: 'Gauging stations',
+    info: '<i>source: <a href="http://www.psmsl.org" target="_blank">PSMSL</a></i>',
     data: [{
-      'id': '24miles',
-      'type': 'fill',
+      'id': 'gauging',
+      'type': 'symbol',
       'source': {
-        'type': 'vector',
-        'url': 'mapbox://adriaanse.7z3o0vxj'
+        'type': 'geojson',
+        'data': 'https://storage.googleapis.com/slr/psmsl/locations.geojson'
       },
-      'source-layer': '24_miles_zone-9d814s',
-      'paint': {
-        'fill-color': 'rgba(64, 64, 64, 1.0)',
-        'fill-outline-color': 'rgba(200, 200, 200, 1.0)'
-      }
-    }]
-  },
-  {
-    layertype: 'mapbox',
-    name: '12 miles zone',
-    icon: '/images/12miles.png',
-    opacity: 100,
-    active: true,
-    info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
-    legend: {
-      colors: ['#404040', '#c8c8c8'],
-      range: '0 1'
-    },
-    data: [{
-      'id': '12miles',
-      'type': 'fill',
-      'source': {
-        'type': 'vector',
-        'url': 'mapbox://adriaanse.9f199gkd'
-      },
-      'source-layer': '12_miles_zone-d5cbg5',
-      'paint': {
-        'fill-color': 'rgba(64, 64, 64, 0.5)',
-        'fill-outline-color': 'rgba(200, 200, 200, 1.0)'
+      'layout': {
+        'icon-image': 'triangle-11',
+        'icon-size': 1.5
       }
     }]
   }

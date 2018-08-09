@@ -5,8 +5,6 @@ import {
   mapLayers
 } from './map-layers-config.js'
 
-import _ from 'lodash'
-
 export default {
   name: 'v-map-layers',
   data () {
@@ -16,13 +14,13 @@ export default {
   },
   methods: {
     deferredMountedTo (map) {
-      _.each(mapLayers, (layer) => {
+      mapLayers.forEach((layer) => {
         bus.$emit('add-layer', layer)
-        if (layer.layertype && (layer.layertype.includes('mapbox') || layer.layertype.includes('geojson'))) {
+        if (layer.layerType && (layer.layerType.includes('mapbox') || layer.layerType.includes('geojson'))) {
           layer.active = (layer.active === false) ? layer.active : true
-          _.each(layer.data, (maplayer) => {
-            maplayer.active = layer.active
-            map.addLayer(maplayer)
+          layer.data.forEach((layerData) => {
+            layerData.active = layer.active
+            map.addLayer(layerData)
           })
         }
       })
