@@ -1,3 +1,7 @@
+import {
+  bus
+} from '@/event-bus.js'
+
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -6,6 +10,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Vue2Mapbox from 'vue2mapbox-gl'
 import MapLayers from '../components/VMapLayers'
+import LayerControl from '../components/VLayerControl'
 
 Vue.use(Vuetify)
 Vue.use(Vue2Mapbox)
@@ -14,7 +19,10 @@ export default {
   name: 'home',
   data () {
     return {
-      drawer: false,
+      map: null,
+      layers: [],
+      drawer: true,
+      expand: 0,
       items: [
         { icon: 'trending_up', text: 'Trends', public: true, route: 'trends' },
         { icon: 'subscriptions', text: 'Animations', public: true, route: 'animations' },
@@ -24,7 +32,14 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.map = this.$refs.map.map
+    bus.$on('add-layer', (layer) => {
+      this.layers.push(layer)
+    })
+  },
   components: {
-    'v-map-layers': MapLayers
+    'v-map-layers': MapLayers,
+    'v-layer-control': LayerControl
   }
 }

@@ -1,13 +1,13 @@
 <template>
   <div class="home">
-    <v-app
-      >
-      <v-navigation-drawer
-        v-model="drawer"
-        fixed
-        clipped
-        app
-        >
+    <v-app>
+      <v-navigation-drawer v-model="drawer" fixed clipped app>
+        <v-expansion-panel class="v-selection-panel" v-model="expand">
+          <v-expansion-panel-content>
+            <div class="header ml-4" slot="header" title="Click to close / open map layers">Map Layers:</div>
+            <v-layer-control :layers="layers" :map="map"></v-layer-control>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
         <v-list dense>
           <v-list-tile v-for="item in items" :key="item.text" @click="$router.push({'name': item.route})">
             <v-list-tile-action>
@@ -21,12 +21,7 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar
-        dense
-        fixed
-        clipped-left
-        app
-        >
+      <v-toolbar dense fixed clipped-left app>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-icon class="mx-3">fab fa-youtube</v-icon>
         <v-toolbar-title class="mr-5 align-center">
@@ -41,7 +36,7 @@
               <v-mapbox
                 access-token="pk.eyJ1IjoiYWRyaWFhbnNlIiwiYSI6ImNqYXd4YnZ5dzc4dzMycW53b3lhMXZ6eDkifQ.bbG-PKhVspm-Mkh9zhO8hQ"
                 map-style="mapbox://styles/mapbox/satellite-streets-v10"
-                id="map">
+                id="map" ref="map">
                 <v-map-layers></v-map-layers>
               </v-mapbox>
             </v-flex>
