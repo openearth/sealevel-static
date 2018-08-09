@@ -1,5 +1,6 @@
 const mapLayers = [
   {
+    id: '12mileszone',
     layerType: 'mapbox',
     name: '12 miles zone',
     icon: '/images/12miles.png',
@@ -25,6 +26,7 @@ const mapLayers = [
     }]
   },
   {
+    id: '24mileszone',
     layerType: 'mapbox',
     name: '24 miles zone',
     icon: '/images/24miles.png',
@@ -50,6 +52,7 @@ const mapLayers = [
     }]
   },
   {
+    id: 'eezone',
     layerType: 'mapbox',
     name: 'Economic zone',
     icon: '/images/eez.png',
@@ -74,6 +77,7 @@ const mapLayers = [
     }]
   },
   {
+    id: 'gaugingstations',
     layerType: 'geojson',
     name: 'Gauging stations',
     opacity: 100,
