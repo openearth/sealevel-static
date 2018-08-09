@@ -71,23 +71,11 @@ export default {
       }
     },
     setOpacity (layer, sublayer) {
+      // opacity is defined for a logical layer but applies to all sub-layers
       if (layer.opacity) {
-        try {
-          var opacity = Math.max(layer.opacity * 0.01, 0.01)
-          var property
-          if (layer.layertype === 'gee-layer') {
-            property = 'raster-opacity'
-          } else if (sublayer.type === 'fill') {
-            property = 'fill-opacity'
-          } else if (sublayer.type === 'line') {
-            property = 'line-opacity'
-          }
-          if (property) {
-            this.map.setPaintProperty(sublayer.id, property, opacity)
-          }
-        } catch (err) {
-          console.log('error setting opacity: ' + opacity + '(' + err.message + ')')
-        }
+        var opacity = Math.max(layer.opacity * 0.01, 0.01)
+        var property = `${sublayer.type}-opacity`.replace('symbol', 'icon')
+        this.map.setPaintProperty(sublayer.id, property, opacity)
       }
     },
     colorRamp (legend) {
