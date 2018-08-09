@@ -49,6 +49,7 @@ export default {
         var self = this
         this.layers.forEach((layer) => {
           layer.data.forEach((layerData) => {
+            // move to top
             self.map.moveLayer(layerData.id)
           })
         })
@@ -62,7 +63,7 @@ export default {
           layer.data.forEach((layerData) => {
             if (layer.active) {
               self.map.setLayoutProperty(layerData.id, 'visibility', 'visible')
-              self.setOpacity(layer, layerData)
+              self.setOpacity(layerData, layer.opacity)
             } else {
               self.map.setLayoutProperty(layerData.id, 'visibility', 'none')
             }
@@ -70,15 +71,16 @@ export default {
         })
       }
     },
-    setOpacity (layer, layerData) {
+    setOpacity (layerData, opacity) {
       // opacity is defined for a logical layer but applies to all sub-layers
-      if (layer.opacity) {
-        var opacity = Math.max(layer.opacity * 0.01, 0.01)
+      if (layerData && opacity) {
+        var value = Math.max(opacity * 0.01, 0.01)
         var property = `${layerData.type}-opacity`.replace('symbol', 'icon')
-        this.map.setPaintProperty(layerData.id, property, opacity)
+        this.map.setPaintProperty(layerData.id, property, value)
       }
     },
     colorRamp (legend) {
+      // css rendering of color ramp (used when legend.range is defined)
       if (legend && legend.colors) {
         return 'background: linear-gradient(to right, ' + legend.colors.join() + ');'
       }
