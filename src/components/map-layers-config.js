@@ -29,7 +29,7 @@ const mapLayers = [
     name: '24 miles zone',
     icon: '/images/24miles.png',
     opacity: 100,
-    active: true,
+    active: false,
     info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
     legend: {
       colors: ['#404040', '#c8c8c8'],
@@ -76,6 +76,8 @@ const mapLayers = [
   {
     layerType: 'geojson',
     name: 'Gauging stations',
+    opacity: 100,
+    active: true,
     info: '<i>source: <a href="http://www.psmsl.org" target="_blank">PSMSL</a></i>',
     data: [{
       'id': 'gauging',

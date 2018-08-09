@@ -55,7 +55,7 @@ export default {
       }
     },
     toggleLayers () {
-      // toggle the visibility and opacity of the layers in mapbox.
+      // toggle the visibility and opacity of the mapbox layers
       if (this.map && this.layers) {
         var self = this
         this.layers.forEach((layer) => {
@@ -71,23 +71,11 @@ export default {
       }
     },
     setOpacity (layer, layerData) {
+      // opacity is defined for a logical layer but applies to all sub-layers
       if (layer.opacity) {
-        try {
-          var opacity = Math.max(layer.opacity * 0.01, 0.01)
-          var property
-          if (layer.layerType === 'gee') {
-            property = 'raster-opacity'
-          } else if (layerData.type === 'fill') {
-            property = 'fill-opacity'
-          } else if (layerData.type === 'line') {
-            property = 'line-opacity'
-          }
-          if (property) {
-            this.map.setPaintProperty(layerData.id, property, opacity)
-          }
-        } catch (err) {
-          console.log('error setting opacity: ' + opacity + '(' + err.message + ')')
-        }
+        var opacity = Math.max(layer.opacity * 0.01, 0.01)
+        var property = `${layerData.type}-opacity`.replace('symbol', 'icon')
+        this.map.setPaintProperty(layerData.id, property, opacity)
       }
     },
     colorRamp (legend) {

@@ -17,9 +17,10 @@ export default {
       mapLayers.forEach((layer) => {
         bus.$emit('add-layer', layer)
         if (layer.layerType && (layer.layerType.includes('mapbox') || layer.layerType.includes('geojson'))) {
-          layer.active = (layer.active === false) ? layer.active : true
+          // opacity and active properties are defined for a logical layer but appliy to all sub-layers
           layer.data.forEach((layerData) => {
             layerData.active = layer.active
+            layerData.opacity = layer.opacity
             map.addLayer(layerData)
           })
         }
