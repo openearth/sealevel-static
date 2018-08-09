@@ -17,9 +17,7 @@ export default {
   data: function () {
     return {
       expand: 0,
-      drag: false,
-      firstImage: null,
-      falseColor: 'Natural colors'
+      drag: false
     }
   },
   computed: {
@@ -43,50 +41,34 @@ export default {
         bus.$emit('select-layers', this.layers)
       },
       deep: true
-    },
-    firstImage: {
-      handler: function (firstImage) {
-        this.toggleLayers()
-      },
-      deep: true
-    },
-    // apply false color scheme to satellite layer(s)
-    falseColor: {
-      handler: function (falseColor) {
-        this.setFalseColor(falseColor)
-      }
     }
   },
-  mounted () {
-    bus.$on('firstImage-changed', (firstImage) => {
-      this.firstImage = firstImage
-    })
-  },
+  mounted () { },
   methods: {
     sortLayers () {
-      for (var i = this.layers.length - 2; i >= 0; --i) {
-        for (var thislayer = 0; thislayer < this.layers[i].data.length; ++thislayer) {
-          this.map.moveLayer(this.layers[i].data[thislayer].id)
+      // sort the layers in mapbox to match this.layers
+      if (this.map && this.layers) {
+        for (var i = this.layers.length - 2; i >= 0; --i) {
+          for (var thislayer = 0; thislayer < this.layers[i].data.length; ++thislayer) {
+            this.map.moveLayer(this.layers[i].data[thislayer].id)
+          }
         }
       }
     },
     toggleLayers () {
-      if (_.isNil(this.map)) {
-        return
-      }
-      // Function to toggle the visibility and opacity of the layers.
-      var vis = ['none', 'visible']
-
-      _.each(this.layers, (layer) => {
-        _.each(layer.data, (sublayer) => {
-          if (layer.active) {
-            this.map.setLayoutProperty(sublayer.id, 'visibility', vis[1])
-            this.setOpacity(layer, sublayer)
-          } else {
-            this.map.setLayoutProperty(sublayer.id, 'visibility', vis[0])
-          }
+      // toggle the visibility and opacity of the layers in mapbox.
+      if (this.map && this.layers) {
+        _.each(this.layers, (layer) => {
+          _.each(layer.data, (sublayer) => {
+            if (layer.active) {
+              this.map.setLayoutProperty(sublayer.id, 'visibility', 'visible')
+              this.setOpacity(layer, sublayer)
+            } else {
+              this.map.setLayoutProperty(sublayer.id, 'visibility', 'none')
+            }
+          })
         })
-      })
+      }
     },
     setOpacity (layer, sublayer) {
       if (layer.opacity) {
@@ -107,14 +89,6 @@ export default {
           console.log('error setting opacity: ' + opacity + '(' + err.message + ')')
         }
       }
-    },
-    setFalseColor (name) {
-      _.each(this.layers, (layer) => {
-        if (layer.visualisations) {
-          layer.vis = layer.visualisations.find(v => v.name === this.falseColor).vis
-        }
-      })
-      bus.$emit('change-false-color', name)
     },
     colorRamp (legend) {
       if (legend && legend.colors) {
