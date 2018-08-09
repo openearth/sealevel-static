@@ -1,6 +1,23 @@
 const mapLayers = [
   {
-    layertype: 'mapbox-layer',
+    layertype: 'geojson',
+    name: 'Gauging stations',
+    info: '<i>source: <a href="http://www.psmsl.org" target="_blank">PSMSL</a></i>',
+    data: [{
+      'id': 'gauging',
+      'type': 'symbol',
+      'source': {
+        'type': 'geojson',
+        'data': 'https://storage.googleapis.com/slr/psmsl/locations.geojson'
+      },
+      'layout': {
+        'icon-image': 'triangle-11',
+        'icon-size': 1.5
+      }
+    }]
+  },
+  {
+    layertype: 'mapbox',
     name: 'Economic zone',
     icon: '/images/eez.png',
     opacity: 100,
@@ -24,7 +41,7 @@ const mapLayers = [
     }]
   },
   {
-    layertype: 'mapbox-layer',
+    layertype: 'mapbox',
     name: '24 miles zone',
     icon: '/images/24miles.png',
     opacity: 100,
@@ -49,7 +66,7 @@ const mapLayers = [
     }]
   },
   {
-    layertype: 'mapbox-layer',
+    layertype: 'mapbox',
     name: '12 miles zone',
     icon: '/images/12miles.png',
     opacity: 100,
