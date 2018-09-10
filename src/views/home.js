@@ -36,7 +36,30 @@ export default {
     this.map = this.$refs.map.map
     bus.$on('add-layer', (layer) => {
       this.layers.push(layer)
+      if (layer.layerType === 'gee') {
+        this.getGeeTileSet(this.map, layer)
+      }
     })
+  },
+  methods: {
+    // fetch tileset url for GEE layer and add it as layer to MapBox
+    getGeeTileSet (map, layer) {
+      fetch(layer.serviceUrl).then((response) => {
+        return response.json().then((result) => {
+          console.log(`GEE tileset: ${result.url}`)
+          var tileset = {
+            id: layer.id,
+            type: 'raster',
+            source: {
+              type: 'raster',
+              tiles: [result.url],
+              tileSize: 256
+            }
+          }
+          map.addLayer(tileset)
+        })
+      })
+    }
   },
   components: {
     'v-map-layers': MapLayers,

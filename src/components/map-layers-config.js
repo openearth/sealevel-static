@@ -1,11 +1,26 @@
 const mapLayers = [
   {
+    id: 'sshtrend',
+    layerType: 'gee',
+    name: 'SSH trend',
+    icon: '/images/sshtrend.png',
+    opacity: 100,
+    active: true,
+    info: '<i>source: <a href="https://podaac.jpl.nasa.gov/" target="_blank">NASA poodaac</a></i>',
+    legend: {
+      colors: ['#000000', '#ffffff'],
+      range: '0 1'
+    },
+    serviceUrl: 'http://hydro-engine.appspot.com/get_sea_surface_height_trend_image',
+    data: []
+  },
+  {
     id: '12mileszone',
     layerType: 'mapbox',
     name: '12 miles zone',
     icon: '/images/12miles.png',
     opacity: 100,
-    active: true,
+    active: false,
     info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
     legend: {
       colors: ['#404040', '#c8c8c8'],
