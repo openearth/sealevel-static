@@ -3,7 +3,7 @@ const mapLayers = [
     id: 'sshtrend',
     layerType: 'gee',
     name: 'SSH Trend',
-    icon: '/images/sshtrend.png',
+    icon: 'images/sshtrend.png',
     opacity: 100,
     active: true,
     info: '<i>source: <a href="https://podaac.jpl.nasa.gov/" target="_blank">NASA poodaac</a></i>',
@@ -18,7 +18,7 @@ const mapLayers = [
     id: '12mileszone',
     layerType: 'mapbox',
     name: '12 miles zone',
-    icon: '/images/12miles.png',
+    icon: 'images/12miles.png',
     opacity: 100,
     active: false,
     info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
@@ -44,7 +44,7 @@ const mapLayers = [
     id: '24mileszone',
     layerType: 'mapbox',
     name: '24 miles zone',
-    icon: '/images/24miles.png',
+    icon: 'images/24miles.png',
     opacity: 100,
     active: false,
     info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
@@ -70,7 +70,7 @@ const mapLayers = [
     id: 'eezone',
     layerType: 'mapbox',
     name: 'Economic zone',
-    icon: '/images/eez.png',
+    icon: 'images/eez.png',
     opacity: 100,
     active: false,
     info: '<i>source: <a href="http://marineregions.org/sources.php#marbound" target="_blank">marineregions.org</a></i>',
@@ -95,6 +95,7 @@ const mapLayers = [
     id: 'gaugingstations',
     layerType: 'geojson',
     name: 'Gauging stations',
+    icon: 'images/marker-40.png',
     opacity: 100,
     active: true,
     info: '<i>source: <a href="http://www.psmsl.org" target="_blank">PSMSL</a></i>',
@@ -106,7 +107,7 @@ const mapLayers = [
         'data': 'https://storage.googleapis.com/slr/psmsl/locations.geojson'
       },
       'layout': {
-        'icon-image': 'triangle-11',
+        'icon-image': 'marker',
         'icon-size': 1.5
       }
     }]
