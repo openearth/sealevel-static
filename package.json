@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "deploy": "gh-pages -d dist",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e"
   },
@@ -29,6 +30,7 @@
     "@vue/cli-service": "^3.0.0-rc.9",
     "@vue/eslint-config-standard": "^3.0.0-rc.9",
     "eslint": "^4.0.0",
+    "gh-pages": "^1.1.0",
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.16"
