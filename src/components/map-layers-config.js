@@ -9,7 +9,7 @@ const mapLayers = [
     info: '<i>source: <a href="https://podaac.jpl.nasa.gov/" target="_blank">NASA poodaac</a></i>',
     legend: {
       colors: ['#151d44', '#156c72', '#7eb390', '#fdf5f4', '#db8d77', '#9c3060', '#340d35'],
-      range: '-0.03 [m] +0.03'
+      range: '-0.03 [m/year] +0.03'
     },
     serviceUrl: 'http://hydro-engine.appspot.com/get_sea_surface_height_trend_image',
     data: []
