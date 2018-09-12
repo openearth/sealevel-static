@@ -19,7 +19,6 @@ Vue.use(Vue2Mapbox)
 const psmslUrl = 'https://storage.googleapis.com/slr/psmsl/'
 const nasaUrl = 'http://hydro-engine.appspot.com/get_sea_surface_height_time_series'
 
-// @ is an alias to /src
 export default {
   name: 'home',
   data () {
@@ -50,8 +49,10 @@ export default {
       console.log(`NASA data: ${value.times.length} months`)
     },
     loading: function (value) {
-      this.map.getCanvas().style.cursor = (value > 0) ? 'wait' : 'default'
-      if (value < 0) {
+      var cursor = (value > 0) ? 'wait' : 'default'
+      document.body.style.cursor = cursor
+      this.map.getCanvas().style.cursor = cursor
+      if (value < 0 || value > 2) {
         this.loading = 0
       }
     }
@@ -83,14 +84,15 @@ export default {
 
     // click to query time series
     this.map.on('click', (e) => {
+      // nasa data from gee ?
+      this.getNasaData(e.lngLat.lng, e.lngLat.lat)
+
       // gaging station data ?
       var features = this.map.queryRenderedFeatures(e.point)
       if (features && features.length > 0) {
         var feature = features.find(feature => feature.layer.id.includes('gages'))
         this.getPsMslData(feature)
       }
-      // nasa data from gee ?
-      this.getNasaData(e.lngLat.lng, e.lngLat.lat)
     })
   },
   methods: {
@@ -128,8 +130,8 @@ export default {
             this.psmslData = JSON.parse(text.replace(/\bNaN\b/g, 'null'))
           })
           .catch((error) => {
-            console.log(error)
-            this.loading--
+            console.log(`Error loading PSMSL time series data: ${error.message}`)
+            this.loading = 0
           })
       }
     },
@@ -159,8 +161,8 @@ export default {
           this.nasaData = json
         })
         .catch((error) => {
-          console.log(error)
-          this.loading--
+          console.log(`Error loading NASA time series data: ${error.message}`)
+          this.loading = 0
         })
     },
 
