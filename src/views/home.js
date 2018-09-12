@@ -28,6 +28,8 @@ export default {
       layers: [],
       drawer: true,
       expand: 0,
+      popup: false,
+      loading: 0,
       psmslData: {},
       nasaData: {},
       items: [
@@ -37,6 +39,21 @@ export default {
         { icon: 'alarm', text: 'Signals', public: false, route: 'signals' },
         { icon: 'business', text: 'Cost estimates', public: false, route: 'cost' }
       ]
+    }
+  },
+  watch: {
+    // respond to asynch loading of timeseries
+    psmslData: function (value) {
+      console.log(`PSMSL data: ${value.events.length} months`)
+    },
+    nasaData: function (value) {
+      console.log(`NASA data: ${value.times.length} months`)
+    },
+    loading: function (value) {
+      this.map.getCanvas().style.cursor = (value > 0) ? 'wait' : 'default'
+      if (value < 0) {
+        this.loading = 0
+      }
     }
   },
   mounted () {
@@ -52,12 +69,14 @@ export default {
 
     // Change pointer on hover
     this.map.on('mousemove', (e) => {
-      this.map.getCanvas().style.cursor = ''
-      var features = this.map.queryRenderedFeatures(e.point)
-      if (features && features.length > 0) {
-        var feature = features.find(feature => feature.layer.id.includes('gages'))
-        if (feature) {
-          this.map.getCanvas().style.cursor = 'pointer'
+      if (!this.loading) {
+        this.map.getCanvas().style.cursor = ''
+        var features = this.map.queryRenderedFeatures(e.point)
+        if (features && features.length > 0) {
+          var feature = features.find(feature => feature.layer.id.includes('gages'))
+          if (feature) {
+            this.map.getCanvas().style.cursor = 'pointer'
+          }
         }
       }
     })
@@ -68,40 +87,10 @@ export default {
       var features = this.map.queryRenderedFeatures(e.point)
       if (features && features.length > 0) {
         var feature = features.find(feature => feature.layer.id.includes('gages'))
-        if (feature) {
-          var url = psmslUrl + feature.properties.rlr_monthly_url
-          fetch(url)
-            .then((response) => {
-              return response.text()
-            })
-            .then((text) => {
-              // workaround: json contains invalid NaN values
-              this.psmslData = JSON.parse(text.replace(/\bNaN\b/g, 'null'))
-              console.log(this.psmslData)
-            })
-        }
+        this.getPsMslData(feature)
       }
       // nasa data from gee ?
-      var request = JSON.stringify({
-        region: {
-          type: 'Point',
-          coordinates: [ e.lngLat.lng, e.lngLat.lat ]
-        }
-      })
-
-      fetch(nasaUrl, {
-        method: 'POST',
-        body: request,
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((response) => {
-        return response.json()
-      }).then((json) => {
-        this.nasaData = json
-        console.log(json)
-      })
+      this.getNasaData(e.lngLat.lng, e.lngLat.lat)
     })
   },
   methods: {
@@ -123,7 +112,59 @@ export default {
         })
       })
     },
-    // load marker icon
+
+    // fetch PSMSL time series data from google storage
+    getPsMslData (feature) {
+      if (feature) {
+        this.loading++
+        var url = psmslUrl + feature.properties.rlr_monthly_url
+        fetch(url)
+          .then((response) => {
+            this.loading--
+            return response.text()
+          })
+          .then((text) => {
+            // workaround: json contains invalid NaN values
+            this.psmslData = JSON.parse(text.replace(/\bNaN\b/g, 'null'))
+          })
+          .catch((error) => {
+            console.log(error)
+            this.loading--
+          })
+      }
+    },
+
+    // fetch NASA time series data from hydro engine
+    getNasaData (lng, lat) {
+      this.loading++
+      var request = JSON.stringify({
+        region: {
+          type: 'Point',
+          coordinates: [ lng, lat ]
+        }
+      })
+      fetch(nasaUrl, {
+        method: 'POST',
+        body: request,
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then((response) => {
+          this.loading--
+          return response.json()
+        })
+        .then((json) => {
+          this.nasaData = json
+        })
+        .catch((error) => {
+          console.log(error)
+          this.loading--
+        })
+    },
+
+    // load marker icon from image
     getMarker (name) {
       this.map.loadImage(`images/${name}.png`, (error, image) => {
         if (error) throw error
