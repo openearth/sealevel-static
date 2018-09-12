@@ -9,6 +9,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Vue2Mapbox from 'vue2mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 import MapLayers from '../components/VMapLayers'
 import LayerControl from '../components/VLayerControl'
 
@@ -27,7 +28,7 @@ export default {
       layers: [],
       drawer: true,
       expand: 0,
-      popup: false,
+      popup: null,
       loading: 0,
       psmslData: {},
       nasaData: {},
@@ -84,14 +85,23 @@ export default {
 
     // click to query time series
     this.map.on('click', (e) => {
-      // nasa data from gee ?
-      this.getNasaData(e.lngLat.lng, e.lngLat.lat)
+      if (this.popup) {
+        // close popup
+        this.popup.remove()
+        this.popup = null
+      } else {
+        // nasa data from gee ?
+        this.getNasaData(e.lngLat.lng, e.lngLat.lat)
 
-      // gaging station data ?
-      var features = this.map.queryRenderedFeatures(e.point)
-      if (features && features.length > 0) {
-        var feature = features.find(feature => feature.layer.id.includes('gages'))
-        this.getPsMslData(feature)
+        // gaging station data ?
+        var features = this.map.queryRenderedFeatures(e.point)
+        if (features && features.length > 0) {
+          var feature = features.find(feature => feature.layer.id.includes('gages'))
+          this.getPsMslData(feature)
+        }
+
+        // open the popup
+        this.popupChart(e.lngLat)
       }
     })
   },
@@ -172,6 +182,20 @@ export default {
         if (error) throw error
         this.map.addImage(name, image)
       })
+    },
+
+    // display popup with time series chart
+    popupChart (lngLat) {
+      if (!this.popup) {
+        this.popup = new mapboxgl.Popup()
+        this.popup.owner = this
+        this.popup.setDOMContent(this.$refs.popup)
+        this.popup.setLngLat(lngLat)
+        this.popup.addTo(this.map)
+        this.popup.on('close', (e) => {
+          e.target.owner.popup = null
+        })
+      }
     }
   },
 

@@ -39,6 +39,9 @@
                 id="map" ref="map">
                 <v-map-layers></v-map-layers>
               </v-mapbox>
+              <div class="hidden">
+                <div id="popup" ref="popup">mapbox popup</div>
+              </div>
             </v-flex>
           </v-layout>
         </v-container>
@@ -51,7 +54,10 @@
 
 <style>
   #map {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
+  }
+  .hidden {
+    display: none;
   }
 </style>
