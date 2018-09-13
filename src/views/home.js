@@ -34,10 +34,42 @@ export default {
   },
   mounted () {
     this.map = this.$refs.map.map
+    this.getMarker('marker')
     bus.$on('add-layer', (layer) => {
       this.layers.push(layer)
+      if (layer.layerType === 'gee') {
+        this.getGeeTileSet(layer)
+      }
     })
   },
+  methods: {
+    // fetch tileset url for GEE layer and add it as layer to MapBox
+    getGeeTileSet (layer) {
+      fetch(layer.serviceUrl).then((response) => {
+        return response.json().then((result) => {
+          var tileset = {
+            id: layer.id,
+            type: 'raster',
+            source: {
+              type: 'raster',
+              tiles: [result.url],
+              tileSize: 256
+            }
+          }
+          layer.data = [tileset]
+          this.map.addLayer(tileset)
+        })
+      })
+    },
+    // load marker icon
+    getMarker (name) {
+      this.map.loadImage(`images/${name}.png`, (error, image) => {
+        if (error) throw error
+        this.map.addImage(name, image)
+      })
+    }
+  },
+
   components: {
     'v-map-layers': MapLayers,
     'v-layer-control': LayerControl
