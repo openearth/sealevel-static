@@ -36,17 +36,12 @@ export default {
       psmslData: {},
       nasaData: {},
       chartOptions: {
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line'
-        }]
+        xAxis: { type: 'time' },
+        yAxis: { type: 'value' },
+        series: [
+          { data: [], type: 'line' },
+          { data: [], type: 'line' }
+        ]
       },
       items: [
         { icon: 'trending_up', text: 'Trends', public: true, route: 'trends' },
@@ -60,15 +55,33 @@ export default {
   watch: {
     // respond to asynch loading of timeseries
     psmslData: function (value) {
+      var data = []
+      value.events.forEach(event => {
+        data.push([
+          event.timeStamp.substring(0, 10),
+          (event.value) ? event.value / 1000.0 : null
+        ])
+      })
+      this.chartOptions.series[0].data = data
       console.log(`PSMSL data: ${value.events.length} months`)
     },
     nasaData: function (value) {
+      var data = []
+      for (var i = 0; i < value.times.length; i++) {
+        data.push([
+          new Date(value.times[i]).toISOString().substring(0, 10),
+          value.values[i]
+        ])
+      }
+      this.chartOptions.series[1].data = data
       console.log(`NASA data: ${value.times.length} months`)
     },
+    // wait cursor while loading
     loading: function (value) {
       var cursor = (value > 0) ? 'wait' : 'default'
       document.body.style.cursor = cursor
       this.map.getCanvas().style.cursor = cursor
+      this.$refs.popup.style.cursor = cursor
       if (value < 0 || value > 2) {
         this.loading = 0
       }
