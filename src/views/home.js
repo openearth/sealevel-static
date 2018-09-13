@@ -59,7 +59,7 @@ export default {
         ])
       })
       this.chartOptions.series[0].data = data
-      // this.chartOptions.title.text = value.location.name 
+      // this.chartOptions.title.text = value.location.name
       console.log(`PSMSL data: ${value.events.length} months`)
     },
     nasaData: function (value) {
