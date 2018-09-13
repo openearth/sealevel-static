@@ -13,6 +13,9 @@ import mapboxgl from 'mapbox-gl'
 import MapLayers from '../components/VMapLayers'
 import LayerControl from '../components/VLayerControl'
 
+import ECharts from 'vue-echarts/components/ECharts'
+import 'echarts/lib/chart/line'
+
 Vue.use(Vuetify)
 Vue.use(Vue2Mapbox)
 
@@ -32,6 +35,19 @@ export default {
       loading: 0,
       psmslData: {},
       nasaData: {},
+      chartOptions: {
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line'
+        }]
+      },
       items: [
         { icon: 'trending_up', text: 'Trends', public: true, route: 'trends' },
         { icon: 'subscriptions', text: 'Animations', public: true, route: 'animations' },
@@ -75,7 +91,7 @@ export default {
         this.map.getCanvas().style.cursor = ''
         var features = this.map.queryRenderedFeatures(e.point)
         if (features && features.length > 0) {
-          var feature = features.find(feature => feature.layer.id.includes('gages'))
+          var feature = features.find(feature => feature.layer.id.includes('stations'))
           if (feature) {
             this.map.getCanvas().style.cursor = 'pointer'
           }
@@ -93,11 +109,11 @@ export default {
         // nasa data from gee ?
         this.getNasaData(e.lngLat.lng, e.lngLat.lat)
 
-        // gaging station data ?
+        // tide station data ?
         var features = this.map.queryRenderedFeatures(e.point)
         if (features && features.length > 0) {
-          var feature = features.find(feature => feature.layer.id.includes('gages'))
-          this.getPsMslData(feature)
+          var feature = features.find(feature => feature.layer.id.includes('stations'))
+          this.getPsmslData(feature)
         }
 
         // open the popup
@@ -126,7 +142,7 @@ export default {
     },
 
     // fetch PSMSL time series data from google storage
-    getPsMslData (feature) {
+    getPsmslData (feature) {
       if (feature) {
         this.loading++
         var url = psmslUrl + feature.properties.rlr_monthly_url
@@ -187,13 +203,13 @@ export default {
     // display popup with time series chart
     popupChart (lngLat) {
       if (!this.popup) {
+        var self = this
         this.popup = new mapboxgl.Popup()
-        this.popup.owner = this
         this.popup.setDOMContent(this.$refs.popup)
         this.popup.setLngLat(lngLat)
         this.popup.addTo(this.map)
         this.popup.on('close', (e) => {
-          e.target.owner.popup = null
+          self.popup = null
         })
       }
     }
@@ -201,6 +217,7 @@ export default {
 
   components: {
     'v-map-layers': MapLayers,
-    'v-layer-control': LayerControl
+    'v-layer-control': LayerControl,
+    'v-chart': ECharts
   }
 }

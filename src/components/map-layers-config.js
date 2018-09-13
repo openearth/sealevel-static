@@ -15,15 +15,15 @@ const mapLayers = [
     data: []
   },
   {
-    id: 'tidegages',
+    id: 'tidestations',
     layerType: 'geojson',
-    name: 'Tide gages',
+    name: 'Tide stations',
     icon: 'images/marker-40.png',
     opacity: 100,
     active: true,
     info: '<i>source: <a href="http://www.psmsl.org" target="_blank">PSMSL</a></i>',
     data: [{
-      'id': 'gages',
+      'id': 'stations',
       'type': 'symbol',
       'source': {
         'type': 'geojson',

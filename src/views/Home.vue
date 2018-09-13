@@ -40,7 +40,9 @@
                 <v-map-layers></v-map-layers>
               </v-mapbox>
               <div class="hidden">
-                <div id="popup" ref="popup">mapbox popup</div>
+                <div id="popup" ref="popup">
+                  <v-chart :options="chartOptions" auto-resize/>
+                </div>
               </div>
             </v-flex>
           </v-layout>
@@ -60,4 +62,12 @@
   .hidden {
     display: none;
   }
+  #popup {
+    width: 640px;
+    height: 480px;
+  }
+  .echarts {
+    width: 640px;
+    height: 480px;
+}
 </style>
