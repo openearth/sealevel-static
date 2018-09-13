@@ -14,7 +14,9 @@ import MapLayers from '../components/VMapLayers'
 import LayerControl from '../components/VLayerControl'
 
 import ECharts from 'vue-echarts/components/ECharts'
-import 'echarts/lib/chart/line'
+import {
+  eChartOptions
+} from './echartoptions.js'
 
 Vue.use(Vuetify)
 Vue.use(Vue2Mapbox)
@@ -35,14 +37,7 @@ export default {
       loading: 0,
       psmslData: {},
       nasaData: {},
-      chartOptions: {
-        xAxis: { type: 'time' },
-        yAxis: { type: 'value' },
-        series: [
-          { data: [], type: 'line' },
-          { data: [], type: 'line' }
-        ]
-      },
+      chartOptions: eChartOptions,
       items: [
         { icon: 'trending_up', text: 'Trends', public: true, route: 'trends' },
         { icon: 'subscriptions', text: 'Animations', public: true, route: 'animations' },
