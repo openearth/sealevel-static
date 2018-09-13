@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import draggable from 'vuedraggable'
 import {
   bus
@@ -21,14 +20,13 @@ export default {
     }
   },
   computed: {
-    // computed property which links the 'vuedraggable' control to the list of layers
-    computedList: {
+    // the ui handles (drag/drop) layers in reverse order
+    reverseLayers: {
       get () {
-        return this.layers
+        return this.layers.slice().reverse()
       },
-      set (layers) {
-        this.layers = layers
-        bus.$emit('select-layers', this.layers)
+      set (data) {
+        this.layers = data.slice().reverse()
       }
     }
   },
@@ -46,39 +44,43 @@ export default {
   mounted () { },
   methods: {
     sortLayers () {
-      // sort the layers in mapbox to match this.layers
+      // sort the layers in mapbox to match this.layers order
       if (this.map && this.layers) {
-        for (var i = this.layers.length - 2; i >= 0; --i) {
-          for (var thislayer = 0; thislayer < this.layers[i].data.length; ++thislayer) {
-            this.map.moveLayer(this.layers[i].data[thislayer].id)
-          }
-        }
+        var self = this
+        this.layers.forEach((layer) => {
+          layer.data.forEach((layerData) => {
+            // move to top
+            self.map.moveLayer(layerData.id)
+          })
+        })
       }
     },
     toggleLayers () {
-      // toggle the visibility and opacity of the layers in mapbox.
+      // toggle the visibility and opacity of the mapbox layers
       if (this.map && this.layers) {
-        _.each(this.layers, (layer) => {
-          _.each(layer.data, (sublayer) => {
+        var self = this
+        this.layers.forEach((layer) => {
+          layer.data.forEach((layerData) => {
             if (layer.active) {
-              this.map.setLayoutProperty(sublayer.id, 'visibility', 'visible')
-              this.setOpacity(layer, sublayer)
+              self.map.setLayoutProperty(layerData.id, 'visibility', 'visible')
+              self.setOpacity(layerData, layer.opacity)
             } else {
-              this.map.setLayoutProperty(sublayer.id, 'visibility', 'none')
+              self.map.setLayoutProperty(layerData.id, 'visibility', 'none')
             }
           })
         })
       }
     },
-    setOpacity (layer, sublayer) {
+    setOpacity (layerData, opacity) {
       // opacity is defined for a logical layer but applies to all sub-layers
-      if (layer.opacity) {
-        var opacity = Math.max(layer.opacity * 0.01, 0.01)
-        var property = `${sublayer.type}-opacity`.replace('symbol', 'icon')
-        this.map.setPaintProperty(sublayer.id, property, opacity)
+      if (layerData && opacity) {
+        var value = Math.max(opacity * 0.01, 0.01)
+        var property = `${layerData.type}-opacity`.replace('symbol', 'icon')
+        this.map.setPaintProperty(layerData.id, property, value)
       }
     },
     colorRamp (legend) {
+      // css rendering of color ramp (used when legend.range is defined)
       if (legend && legend.colors) {
         return 'background: linear-gradient(to right, ' + legend.colors.join() + ');'
       }

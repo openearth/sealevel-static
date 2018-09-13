@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panel class="panel">
-    <draggable class="draggable" v-model="computedList" @start="drag=true" @end="drag=false" :options="{handle:'.v-icon'}">
-      <v-expansion-panel-content v-for="layer in layers" :key="layer.id" focusable>
+    <draggable class="draggable" v-model="reverseLayers" @start="drag=true" @end="drag=false" :options="{handle:'.v-icon'}">
+      <v-expansion-panel-content v-for="layer in reverseLayers" :key="layer.id" focusable>
         <div class="header" slot="header">
           <v-list dense>
             <v-list-tile title="Click to open / close layer properties">
@@ -18,9 +18,9 @@
         </div>
         <div class="ma-0 pl-5 pr-5">
           <v-slider v-if="layer.opacity" hide-details title="Change layer opacity" :min="1" :max="100" v-model="layer.opacity"></v-slider>
-          <v-select v-if="layer.visualisations" :items="layer.visualisations" item-text="name" item-value="name" v-model="falseColor" item></v-select>
+          <slot v-if="layer.id" :name="layer.id"></slot>
           <div v-if="layer.legend">
-            <template v-if="layer.legend.range">
+            <template v-if="layer.legend.colors && layer.legend.range">
               <div class="color-ramp mt-1" v-if="layer.legend.colors" :style="colorRamp(layer.legend)" ></div>
               <div class='range-ramp'>{{layer.legend.range}}</div>
             </template>

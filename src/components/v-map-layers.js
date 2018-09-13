@@ -5,8 +5,6 @@ import {
   mapLayers
 } from './map-layers-config.js'
 
-import _ from 'lodash'
-
 export default {
   name: 'v-map-layers',
   data () {
@@ -16,12 +14,14 @@ export default {
   },
   methods: {
     deferredMountedTo (map) {
-      _.each(mapLayers, (layer) => {
+      mapLayers.forEach((layer) => {
         bus.$emit('add-layer', layer)
-        if (layer.layertype && (layer.layertype.includes('mapbox') || layer.layertype.includes('geojson'))) {
-          _.each(layer.data, (maplayer) => {
-            maplayer.active = layer.active
-            map.addLayer(maplayer)
+        if (layer.layerType && (layer.layerType.includes('mapbox') || layer.layerType.includes('geojson'))) {
+          // opacity and active properties are defined for a logical layer but appliy to all sub-layers
+          layer.data.forEach((layerData) => {
+            layerData.active = layer.active
+            layerData.opacity = layer.opacity
+            map.addLayer(layerData)
           })
         }
       })
