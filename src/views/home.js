@@ -50,6 +50,7 @@ export default {
   watch: {
     // respond to asynch loading of timeseries
     psmslData: function (value) {
+      // process psmsl chart data
       var data = []
       value.events.forEach(event => {
         data.push([
@@ -58,9 +59,11 @@ export default {
         ])
       })
       this.chartOptions.series[0].data = data
+      // this.chartOptions.title.text = value.location.name 
       console.log(`PSMSL data: ${value.events.length} months`)
     },
     nasaData: function (value) {
+      // process nasa chart data
       var data = []
       for (var i = 0; i < value.times.length; i++) {
         data.push([
@@ -114,6 +117,11 @@ export default {
         this.popup.remove()
         this.popup = null
       } else {
+        // clear data
+        this.chartOptions.series[0].data = []
+        this.chartOptions.series[1].data = []
+        this.chartOptions.title.text = ''
+
         // nasa data from gee ?
         this.getNasaData(e.lngLat.lng, e.lngLat.lat)
 
@@ -121,6 +129,7 @@ export default {
         var features = this.map.queryRenderedFeatures(e.point)
         if (features && features.length > 0) {
           var feature = features.find(feature => feature.layer.id.includes('stations'))
+          this.chartOptions.title.text = feature.properties.name
           this.getPsmslData(feature)
         }
 

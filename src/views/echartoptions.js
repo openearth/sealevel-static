@@ -9,8 +9,8 @@ import 'echarts/lib/component/dataZoom'
 
 var eChartOptions = {
   title: {
-    text: 'Title',
-    subtext: 'sub-title',
+    text: '',
+    subtext: 'note: loading of nasa data takes +/- 30 sec',
     x: 'center'
   },
   tooltip: {
