@@ -20,7 +20,7 @@ const layers = [
     },
     source: {
       type: 'hydroEngine',
-      url: 'http://hydro-engine.appspot.com/get_sea_surface_height_trend_image'
+      url: 'https://hydro-engine.appspot.com/get_sea_surface_height_trend_image'
     },
     data: [],
     paint: {

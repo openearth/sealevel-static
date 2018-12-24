@@ -7,7 +7,7 @@ import moment from 'moment'
 Vue.use(Vuex)
 
 const psmslUrl = 'https://storage.googleapis.com/slr/psmsl/'
-const nasaUrl = 'http://hydro-engine.appspot.com/get_sea_surface_height_time_series'
+const nasaUrl = 'https://hydro-engine.appspot.com/get_sea_surface_height_time_series'
 
 function addLayers (state) {
   if (_.isNil(state.map)) {
