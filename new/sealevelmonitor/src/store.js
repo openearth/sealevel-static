@@ -95,22 +95,51 @@ export default new Vuex.Store({
       let json = await psmslResp.json()
       station.properties.series = json
 
-      const gmslMean = _.meanBy(
-        _.filter(station.properties.gmsl, 'v'),
-        'v'
-      )
+      // try and filter data over this period
+      const meanRange = [new Date(1993, 1, 1), new Date(1995, 1, 1)]
 
       _.each(station.properties.gmsl, (event) => {
         event.t = moment(event.t).toDate()
+      })
+      // add time to all events
+      _.each(station.properties.series.events, (event) => {
+        event.t = moment(event.timeStamp).toDate()
+      })
+
+      const gmslIn1993 = _.filter(
+        station.properties.gmsl,
+        x => {
+          let in1993 = (x.t >= meanRange[0]) && (x.t < meanRange[1])
+          return in1993
+        }
+      )
+
+      const gmslMean = _.meanBy(
+        _.filter(
+          gmslIn1993,
+          'v'
+        ),
+        'v'
+      )
+      const psmslIn1993 = _.filter(station.properties.series.events, (x) => {
+        return (x.t >= meanRange[0]) && (x.t < meanRange[1])
+      })
+
+      // if not availbe use the whole series
+      const psmslMean = _.meanBy(
+        _.filter(
+          _.size(psmslIn1993) ? psmslIn1993 : station.properties.series.events,
+          'value'
+        ),
+        'value'
+      )
+
+      _.each(station.properties.gmsl, (event) => {
         event.value = _.isNil(event.v) ? event.v : (event.v - gmslMean) * 1000
       })
 
-      const psmslMean = _.meanBy(
-        _.filter(station.properties.series.events, 'value'),
-        'value'
-      )
+      // compute anomaly
       _.each(station.properties.series.events, (event) => {
-        event.t = moment(event.timeStamp).toDate()
         event.value = _.isNil(event.value) ? event.value : event.value - psmslMean
       })
 
